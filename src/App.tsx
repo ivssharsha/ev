@@ -12,16 +12,19 @@ import { MapView } from './components/customer/MapView';
 import { LiveNavigationModal } from './components/customer/LiveNavigationModal';
 import { AIAssistant } from './components/customer/AIAssistant';
 import { MerchantDashboard } from './components/merchant/MerchantDashboard';
+import { IntroSplash } from './components/common/IntroSplash';
 import type { Station } from './types';
 import { 
   Bot, 
-  Zap
+  Zap,
+  Film
 } from 'lucide-react';
 
 const MainContent: React.FC = () => {
   const { currentUser, activeTab, setAiDrawerOpen, setSelectedStationForBooking, setBookingModalOpen } = useApp();
   const [viewMode, setViewMode] = useState<'split' | 'list' | 'map'>('split');
   const [mapSelectedStation, setMapSelectedStation] = useState<Station | null>(null);
+  const [showIntro, setShowIntro] = useState(true);
 
   const handleSelectStationForMap = (station: Station) => {
     setMapSelectedStation(station);
@@ -124,6 +127,9 @@ const MainContent: React.FC = () => {
         </button>
       </div>
 
+      {/* Intro Animation Splash Screen */}
+      {showIntro && <IntroSplash onComplete={() => setShowIntro(false)} />}
+
       {/* Modals & Drawers */}
       <AuthModal />
       <BookingModal />
@@ -140,6 +146,15 @@ const MainContent: React.FC = () => {
             <span>• Next-Gen EV Infrastructure</span>
           </div>
           <div className="flex items-center gap-4 text-slate-400">
+            <button
+              onClick={() => setShowIntro(true)}
+              className="flex items-center gap-1 text-slate-400 hover:text-emerald-400 transition-colors"
+              title="Play intro animation video again"
+            >
+              <Film className="w-3.5 h-3.5" />
+              <span>Watch Intro</span>
+            </button>
+            <span>•</span>
             <span>Powered by 100% Renewable Green Power</span>
             <span>•</span>
             <span className="text-emerald-400 font-mono">Status: All Stations Online</span>
